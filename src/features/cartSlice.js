@@ -15,12 +15,19 @@ const cartSlice = createSlice({
       state.items = state.items.filter((item) => item.id !== action.payload);
     },
     updateItem: (state, action) => {
-      const index = state.items.findIndex((item) => item.id === action.payload);
+      const index = state.items.findIndex((item) => item.id === action.payload.id);
       if (index !== -1) {
-        state.items[index] = action.payload;
+        state.items[index].name = action.payload.name;
+        state.items[index].price = action.payload.price;
+      }
+    },
+    updateQuantity: (state, action) => {
+      const index = state.items.findIndex((item) => item.id === action.payload.id);
+      if (index !== -1) {
+        state.items[index].quantity = action.payload.quantity;
       }
     },
   },
 });
-export const { addItem,removeItem,updateItem } = cartSlice.actions;
+export const { addItem, removeItem, updateItem, updateQuantity } = cartSlice.actions;
 export default cartSlice.reducer;
