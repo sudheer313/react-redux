@@ -1,20 +1,34 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addItem } from "../features/cartSlice";
+import { addItem, removeItem, updateItem } from "../features/cartSlice";
 
 const ShoppingCart = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const [editing, setEditing] = useState(null);
   const items = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name.trim() && price.trim()) {
-      dispatch(addItem({ name, price: parseFloat(price) }));
+      if (editing) {
+        dispatch(updateItem({ id: editing, name, price: parseFloat(price) }));
+        setEditing(null);
+      } else {
+        dispatch(addItem({ id: Date.now(), name, price: parseFloat(price) }));
+      }
       setPrice("");
       setName("");
     }
+  };
+  const handleRemove = (id) => {
+    dispatch(removeItem(id));
+  };
+  const handleEdit = (item) => {
+    setEditing(item.id);
+    setName(item.name);
+    setPrice(item.price);
   };
 
   const total = items.reduce((acc, item) => acc + item.price, 0);
@@ -43,6 +57,8 @@ const ShoppingCart = () => {
         {items.map((item, index) => (
           <div key={index}>
             {item.name}-${item.price.toFixed(2)}
+            <button onClick={() => handleEdit(item)}>Edit</button>
+            <button onClick={() => handleRemove(item.id)}>Remove</button>
           </div>
         ))}
       </div>
