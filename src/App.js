@@ -3,6 +3,7 @@ import AddTodo from "./components/AddTodo";
 import ColorPalette from "./components/ColorPalette";
 import Counter from "./components/Counter";
 import CounterNoRedux from "./components/CounterNoRedux";
+import ShoppingCart from "./components/ShoppingCart";
 import TodoList from "./components/Todolist";
 
 function App() {
@@ -12,8 +13,9 @@ function App() {
       <TodoList />
       <AddTodo />
       {/* <Counter/> */}
-      <CounterNoRedux/>
-      <ColorPalette/>
+      {/* <CounterNoRedux/>
+      <ColorPalette/> */}
+      <ShoppingCart />
     </div>
   );
 }
